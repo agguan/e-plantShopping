@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { useDispatch } from 'react-redux'; //import from react-redux
+import { useDispatch, useSelector } from 'react-redux'; //import from react-redux
 import './ProductList.css'
 import CartItem from './CartItem';
 import { addItem } from './CartSlice';  //import the addItem reducer
@@ -8,6 +8,7 @@ function ProductList() {
     
     const [showCart, setShowCart] = useState(false); 
     const dispatch = useDispatch(); //useDispatch()
+    const totalQuantity = useSelector((state) => state.cart.totalQuantity); //get totalQuantity from the store
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState([]);  //state management for added to cart
 
@@ -224,7 +225,7 @@ function ProductList() {
         padding: '15px',
         display: 'flex',
         justifyContent: 'space-between',
-        alignIems: 'center',
+        alignItems: 'center',
         fontSize: '20px',
     }
     const styleObjUl={
@@ -240,7 +241,7 @@ function ProductList() {
     }
     const handleCartClick = (e) => {
         e.preventDefault();
-        setShowCart(true); // Set showCart to true when cart icon is clicked
+        setShowCart(!showCart); // Set showCart to true when cart icon is clicked
     };
     const handlePlantsClick = (e) => {
         e.preventDefault();
@@ -255,14 +256,16 @@ function ProductList() {
 
     const handleAddToCart = (product) => { //addedToCart handle function
         dispatch(addItem(product));
-        setAddedToCart((prevState) => ({
-            ...prevState,
-            [product.name]: true, //set product name as key and value as true for "added to cart"
-        }))
+        setAddedToCart((prevState) => [...prevState,product] //({
+            //...prevState,
+            //[product.name]: true, //set product name as key and value as true for "added to cart"
+        //})
+        )
     }; 
 
     return (
         <div>
+
             <div className="navbar" style={styleObj}>
                 <div className="tag">
                     <div className="luxury">
@@ -302,9 +305,23 @@ function ProductList() {
                     ))}
 
                 </div>
+                // {addedToCart.length > 0 && (
+                //     <div className="added-to-cart">
+                //         <h2>Added to Cart:</h2>
+                //         <ul>
+                //             {addedToCart.map((item, index) => (
+                //                 <li key={index}>
+                //                     <img className="added-to-cart-image" src={item.image} alt={item.name} />
+                //                     <div>{item.name} - {item.cost}</div>
+                //                 </li>
+                //             ))}
+                //         </ul>
+                //     </div>
+                // )}
             ) :  (
                 <CartItem onContinueShopping={handleContinueShopping}/>
-            )}
+            )
+        }
         </div>
     );
 }
