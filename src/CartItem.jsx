@@ -9,9 +9,20 @@ const CartItem = ({ onContinueShopping }) => {
     const dispatch = useDispatch();
     
     // Calculate total amount for all products in the cart
-    const calculateTotalAmount = () => {
-        return cart.reduce((total, item) => total + item.quantity * item.cost, 0).toFixed(2);
-    };
+    const calculateTotalAmount = (() => {
+        //return cart.reduce((total, item) => total + item.quantity * item.cost, 0).toFixed(2);
+        const total = cart.reduce((total, item) => {
+            const quantity = Number(item.quantity);
+            const cost = Number(item.cost);
+            if (isNaN(quantity) || isNaN(cost)) {
+                console.error(`Invalid item data: ${item.name} has quantity: ${item.quantity} and cost: ${item.cost}`);
+                return total;
+            }
+            return total + quantity * cost;
+        }, 0);
+        console.log("Total amount calculated:", total.toFixed(2)); // Debugging statement
+        return total.toFixed(2);
+    });
 
     const handleContinueShopping = (e) => {
         e.preventDefault();
@@ -36,7 +47,14 @@ const CartItem = ({ onContinueShopping }) => {
 
     // Calculate total cost based on quantity for an item
     const calculateTotalCost = (item) => {
-        return (item.quantity * item.cost).toFixed(2);
+        //return (item.quantity * item.cost).toFixed(2);
+        const quantity = Number(item.quantity);
+        const cost = Number(item.cost);
+        if (isNaN(quantity) || isNaN(cost)) {
+            console.error(`Invalid item data: ${item.name} has quantity: ${item.quantity} and cost: ${item.cost}`);
+            return '0.00';
+        }
+        return (quantity * cost).toFixed(2);
     };
 
     return (
