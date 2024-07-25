@@ -257,12 +257,31 @@ function ProductList() {
     const handleAddToCart = (product) => { //addedToCart handle function
         // dispatch(addItem(product));
         // setAddedToCart((prevState) => [...prevState,product]);
+        
+        // dispatch(addItem(product));
+        // setAddedToCart((prevState) => ({
+        //    ...prevState,
+        //    [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
+        //  }));
+
         dispatch(addItem(product));
-        setAddedToCart((prevState) => ({
-           ...prevState,
-           [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
-         }));
-    }; 
+        setAddedToCart((prevAddedToCart) => ({
+            ...prevAddedToCart,
+            [product.name]: true,
+        }));
+
+    };
+    // const handleShowPlantsClick = () => {
+    //     setShowPlants(!showPlants);
+    // };
+    
+    // useEffect(() => {
+    //     const updatedAddedToCart = cartItems.reduce((acc, item) => {
+    //         acc[item.name] = true;
+    //         return acc;
+    //     }, {});
+    //     setAddedToCart(updatedAddedToCart);
+    // }, [cartItems]);
 
     return (
         <div>
@@ -323,17 +342,21 @@ function ProductList() {
                                         id="mainIconPathAttribute">
                                     </path>
                                 </svg>
-                                {totalQuantity > 0 && (
+                                {totalQuantity > 0 
+                                    && (
                                     <div className="cart-quantity" style={{
                                         position: 'absolute',
                                         top: '10px',
-                                        right: '10px',
-                                        background: 'red',
-                                        borderRadius: '50%',
+                                        right: '15px',
+                                        // background: 'red',
+                                        // borderRadius: '50%',
                                         color: 'white',
                                         padding: '5px 10px',
-                                        fontSize: '12px',
-                                        transform: 'translate(50%, -50%)'
+                                        // fontSize: '12px',
+                                        // display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        // transform: 'translate(50%, -50%)'
                                     }}>
                                         {totalQuantity}
                                     </div>
@@ -357,7 +380,28 @@ function ProductList() {
                                         <div className="product-title">{plant.name}</div>
                                         <div className="product-description">{plant.description}</div>
                                         <div className="product-cost"> ${plant.cost}</div>
-                                        <button className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                                        {/* <button className="product-button" 
+                                            onClick={() => handleAddToCart(plant)}>Add to Cart
+                                        </button> */}
+
+                                        <button
+                                            onClick={() => handleAddToCart(plant)}
+                                            className="add-to-cart-button"
+                                            disabled={addedToCart[plant.name]}
+                                        >
+                                            {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
+                                        </button>
+
+                                        {/* <button
+                                            onClick={() => handleAddToCart(plant)}
+                                            disabled={addedToCart[plant.name] || false}
+                                            className={`add-to-cart-button ${addedToCart[plant.name] ? 'added' : ''}`}
+                                        >
+                                            {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
+                                        </button>    */}
+
+
+
                                     </div>
                                 ))}
                             </div>
