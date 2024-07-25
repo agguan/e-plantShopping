@@ -1,16 +1,16 @@
 import React, { useState,useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'; //import from react-redux
+import { useDispatch, useSelector } from 'react-redux'; 
 import './ProductList.css'
 import CartItem from './CartItem';
-import { addItem } from './CartSlice';  //import the addItem reducer
+import { addItem , removeItem } from './CartSlice';  
 
 function ProductList() {
     
     const [showCart, setShowCart] = useState(false); 
-    const dispatch = useDispatch(); //useDispatch()
+    const dispatch = useDispatch(); 
     const totalQuantity = useSelector((state) => state.cart.totalQuantity); //get totalQuantity from the store
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-    const [addedToCart, setAddedToCart] = useState([]);  //state management for added to cart
+    const [addedToCart, setAddedToCart] = useState({});  //state management for added to cart
 
     const plantsArray = [
         {
@@ -283,6 +283,16 @@ function ProductList() {
     //     setAddedToCart(updatedAddedToCart);
     // }, [cartItems]);
 
+    const handleRemoveFromCart = (product) => {
+        dispatch(removeItem(product.name));
+        setAddedToCart((prevAddedToCart) => {
+            const updatedCart = { ...prevAddedToCart };
+            delete updatedCart[product.name];
+            return updatedCart;
+        });
+    };
+    
+
     return (
         <div>
 
@@ -384,13 +394,13 @@ function ProductList() {
                                             onClick={() => handleAddToCart(plant)}>Add to Cart
                                         </button> */}
 
-                                        <button
+                                        {/* <button
                                             onClick={() => handleAddToCart(plant)}
                                             className="add-to-cart-button"
                                             disabled={addedToCart[plant.name]}
                                         >
                                             {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
-                                        </button>
+                                        </button> */}
 
                                         {/* <button
                                             onClick={() => handleAddToCart(plant)}
@@ -399,6 +409,15 @@ function ProductList() {
                                         >
                                             {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
                                         </button>    */}
+                                        
+                                        <button
+                                            onClick={() => handleAddToCart(plant)}
+                                            className="add-to-cart-button"
+                                            disabled={addedToCart[plant.name]}
+                                        >
+                                            {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
+                                        </button>
+
 
 
 
@@ -410,7 +429,7 @@ function ProductList() {
 
                 </div>                
             ) :  (
-                <CartItem onContinueShopping={handleContinueShopping}/>
+                <CartItem onContinueShopping={handleContinueShopping} onRemoveItem={handleRemoveFromCart}/>
             )
         }
         </div>
