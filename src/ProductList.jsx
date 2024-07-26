@@ -8,9 +8,9 @@ function ProductList() {
     
     const [showCart, setShowCart] = useState(false); 
     const dispatch = useDispatch(); 
-    const totalQuantity = useSelector((state) => state.cart.totalQuantity); //get totalQuantity from the store
-    const [showPlants, setShowPlants] = useState(true); // State to control the visibility of the About Us page
-    const [addedToCart, setAddedToCart] = useState({});  //state management for added to cart
+    const totalQuantity = useSelector((state) => state.cart.totalQuantity); 
+    const [showPlants, setShowPlants] = useState(true); 
+    const [addedToCart, setAddedToCart] = useState({});  
 
     const plantsArray = [
         {
@@ -241,12 +241,12 @@ function ProductList() {
     }
     const handleCartClick = (e) => {
         e.preventDefault();
-        setShowCart(!showCart); // Set showCart to true when cart icon is clicked
+        setShowCart(!showCart); 
     };
     const handlePlantsClick = (e) => {
         e.preventDefault();
-        setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
-        setShowCart(false); // Hide the cart when navigating to About Us
+        setShowPlants(true); 
+        setShowCart(false); 
     };
 
     const handleContinueShopping = (e) => {
@@ -256,30 +256,18 @@ function ProductList() {
 
     };
 
-    const handleAddToCart = (product) => { //addedToCart handle function
-        // dispatch(addItem(product));
-        // setAddedToCart((prevState) => [...prevState,product]);
-        
-        // dispatch(addItem(product));
-        // setAddedToCart((prevState) => ({
-        //    ...prevState,
-        //    [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
-        //  }));
-
+    const handleAddToCart = (product) => { 
         dispatch(addItem(product));
         setAddedToCart((prevAddedToCart) => ({
             ...prevAddedToCart,
             [product.name]: true,
         }));
-
     };
 
     const handleShowPlantsClick = () => {
         setShowPlants(!showPlants);
     };
 
-    
-    
     // useEffect(() => {
     //     const updatedAddedToCart = cartItems.reduce((acc, item) => {
     //         acc[item.name] = true;
@@ -297,7 +285,6 @@ function ProductList() {
         });
     };
     
-
     return (
         <div>
 
@@ -363,15 +350,10 @@ function ProductList() {
                                         position: 'absolute',
                                         top: '10px',
                                         right: '15px',
-                                        // background: 'red',
-                                        // borderRadius: '50%',
                                         color: 'white',
                                         padding: '5px 10px',
-                                        // fontSize: '12px',
-                                        // display: 'flex',
                                         justifyContent: 'center',
                                         alignItems: 'center',
-                                        // transform: 'translate(50%, -50%)'
                                     }}>
                                         {totalQuantity}
                                     </div>
@@ -395,37 +377,16 @@ function ProductList() {
                                         <div className="product-title">{plant.name}</div>
                                         <div className="product-description">{plant.description}</div>
                                         <div className="product-cost"> ${plant.cost}</div>
-                                        {/* <button className="product-button" 
-                                            onClick={() => handleAddToCart(plant)}>Add to Cart
-                                        </button> */}
-
-                                        {/* <button
-                                            onClick={() => handleAddToCart(plant)}
-                                            className="add-to-cart-button"
-                                            disabled={addedToCart[plant.name]}
-                                        >
-                                            {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
-                                        </button> */}
-
-                                        {/* <button
-                                            onClick={() => handleAddToCart(plant)}
-                                            disabled={addedToCart[plant.name] || false}
-                                            className={`add-to-cart-button ${addedToCart[plant.name] ? 'added' : ''}`}
-                                        >
-                                            {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
-                                        </button>    */}
-                                        
+                                       
                                         <button
                                             onClick={() => handleAddToCart(plant)}
-                                            className="add-to-cart-button"
+                                            className={addedToCart[plant.name] ? "product-button-added" : "product-button"}
                                             disabled={addedToCart[plant.name]}
                                         >
                                             {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
                                         </button>
 
-
-
-
+                                        
                                     </div>
                                 ))}
                             </div>
