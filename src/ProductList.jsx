@@ -365,7 +365,7 @@ function ProductList() {
                 </div>                
             ) :  (
                 <CartItem 
-                    onContinueShopping={handleContinueShopping} 
+                    onContinueShopping={() => setShowCart(false)} 
                     onRemoveItem={handleRemoveFromCart}
                 />
             )
