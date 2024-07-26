@@ -9,7 +9,7 @@ function ProductList() {
     const [showCart, setShowCart] = useState(false); 
     const dispatch = useDispatch(); 
     const totalQuantity = useSelector((state) => state.cart.totalQuantity); //get totalQuantity from the store
-    const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
+    const [showPlants, setShowPlants] = useState(true); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({});  //state management for added to cart
 
     const plantsArray = [
@@ -252,6 +252,8 @@ function ProductList() {
     const handleContinueShopping = (e) => {
         e.preventDefault();
         setShowCart(false);
+        setShowPlants(true); // Show plants when continuing shopping
+
     };
 
     const handleAddToCart = (product) => { //addedToCart handle function
@@ -271,9 +273,12 @@ function ProductList() {
         }));
 
     };
-    // const handleShowPlantsClick = () => {
-    //     setShowPlants(!showPlants);
-    // };
+
+    const handleShowPlantsClick = () => {
+        setShowPlants(!showPlants);
+    };
+
+    
     
     // useEffect(() => {
     //     const updatedAddedToCart = cartItems.reduce((acc, item) => {
@@ -429,7 +434,10 @@ function ProductList() {
 
                 </div>                
             ) :  (
-                <CartItem onContinueShopping={handleContinueShopping} onRemoveItem={handleRemoveFromCart}/>
+                <CartItem 
+                    onContinueShopping={handleContinueShopping} 
+                    onRemoveItem={handleRemoveFromCart}
+                />
             )
         }
         </div>

@@ -15,7 +15,8 @@ const CartItem = ({ onContinueShopping , onRemoveItem }) => {
 
     const handleContinueShopping = (e) => {
         e.preventDefault();
-        onContinueShopping();
+        //onContinueShopping();
+        if (onContinueShopping) onContinueShopping();
     };
 
     const handleIncrement = (item) => {
@@ -41,6 +42,10 @@ const CartItem = ({ onContinueShopping , onRemoveItem }) => {
         return (item.quantity * item.cost).toFixed(2);
     };
 
+    const handleCheckoutShopping = () => {
+        alert("Functionality to be added for future reference");
+    };
+
     return (
         <div className="cart-container">
             <h2 style={{ color: 'black' }}>Total Cart Amount: ${calculateTotalAmount()}</h2>
@@ -64,9 +69,9 @@ const CartItem = ({ onContinueShopping , onRemoveItem }) => {
             </div>
             <div style={{ marginTop: '20px', color: 'black' }} className='total_cart_amount'></div>
             <div className="continue_shopping_btn">
-                <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
+                <button className="get-started-button" onClick={handleContinueShopping}>Continue Shopping</button>
                 <br />
-                <button className="get-started-button1">Checkout</button>
+                <button className="get-started-button1" onClick={handleCheckoutShopping}>Checkout</button>
             </div>
         </div>
     );
